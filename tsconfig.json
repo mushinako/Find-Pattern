@@ -9,7 +9,7 @@
             "es2017",
             "WebWorker"
         ],
-        "target": "es2016"
+        "target": "es2017"
     },
     "include": [
         "./src/ts/**/*"
