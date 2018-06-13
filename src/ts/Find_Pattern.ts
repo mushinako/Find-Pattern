@@ -1,5 +1,5 @@
-interface Counter {
-    [len: string]: Array<Toss>;
+interface BallGroup {
+    [num_of_ball: string]: Array<Toss>;
 }
 
 class Toss {
@@ -14,12 +14,12 @@ class Toss {
         this.ss_length = this.siteswap.length;
     }
     private stack2Siteswap(): Array<number> {
-        var tbs: Array<number> = [];
+        let tbs: Array<number> = [];
         for (let i: number = 0; i < this.maxball; i++) {
             tbs.push(i);
         }
-        var tbso: Array<number> = tbs.slice(0);
-        var hand: Array<number> = [];
+        let tbso: Array<number> = tbs.slice(0);
+        let hand: Array<number> = [];
         do {
             for (let x of this.stack) {
                 let in_hand: number = tbs.shift();
@@ -28,8 +28,8 @@ class Toss {
             }
         }
         while (!sameNumberArray(tbs, tbso));
-        var ss: Array<number> = [];
-        var l: number = hand.length;
+        let ss: Array<number> = [];
+        let l: number = hand.length;
         for (let i: number = l - 1; i >= 0; i--) {
             let found: boolean = false;
             for (let j: number = i + 1; j < l; j++) {
@@ -43,7 +43,7 @@ class Toss {
                 ss.unshift(l - i + hand.indexOf(hand[i]));
             }
         }
-        var ml: number = ss.length;
+        let ml: number = ss.length;
         for (let i: number = 1; i <= Math.floor(ml / 2); i++) {
             if (!(ml % i)) {
                 if (ss.every((cur: number, j: number, arr: Array<number>): boolean => j < arr.length - i ? cur === arr[j + i] : true)) {
@@ -69,8 +69,7 @@ function sameNumberArray(arr1: Array<number>, arr2: Array<number>): boolean {
 }
 
 function juggle(b: number, p: number): Array<Toss> {
-    // Get all ball^period tosses
-    var psbl: Array<Toss> = [];
+    let psbl: Array<Toss> = [];
     for (let i: number = 0; i < Math.pow(b, p); i++) {
         let tmp: Array<number> = [];
         let bl: number = i;
@@ -84,7 +83,7 @@ function juggle(b: number, p: number): Array<Toss> {
 }
 
 function filterByPeriod(psbl: Array<Toss>, target: number): Array<Toss> {
-    var res: Array<Toss> = [];
+    let res: Array<Toss> = [];
     for (let x of psbl) {
         if (x.ss_length === target) {
             res.push(x);
@@ -94,8 +93,8 @@ function filterByPeriod(psbl: Array<Toss>, target: number): Array<Toss> {
 }
 
 function filterRotationaryDuplicates(psbl: Array<Toss>): Array<Toss> {
-    var res: Array<Toss> = [];
-    var counted: Array<Array<number>> = [];
+    let res: Array<Toss> = [];
+    let counted: Array<Array<number>> = [];
     for (let x of psbl) {
         let y: Array<number> = x.siteswap.slice(0);
         if (!counted.some((cur: Array<number>): boolean => sameNumberArray(cur, y))) {
@@ -129,39 +128,57 @@ function sortBySiteswap(c: Array<Toss>): Array<Toss> {
     return c;
 }
 
-function groupByBall(c: Array<Toss>): Array<Toss> {
-    throw new Error("Not implemented yet");
-}
-
-function calc(ball: number, period: number, ss_sort: boolean = true, group_ball: boolean = false): [string, Array<Toss>, boolean] {
-    var start: number = Date.now();
-    var possibilities: Array<Toss> = juggle(ball, period);
-    possibilities = filterByPeriod(possibilities, period);
-    if (ss_sort) {
-        try {
-            possibilities = sortBySiteswap(possibilities);
-        } catch (_) {
-            return ['', [], false];
+function groupByBall(c: Array<Toss>): BallGroup {
+    let res: BallGroup = {};
+    let len_arr: Array<number> = [];
+    for (let x of c) {
+        let mb: number = x.maxball;
+        if (len_arr.includes(mb)) {
+            res[mb].push(x);
+        } else {
+            len_arr.push(mb);
+            res[mb] = [x];
         }
     }
-    possibilities = filterRotationaryDuplicates(possibilities);
-    if (group_ball) {
-        console.log("Grouping");
-        possibilities = groupByBall(possibilities);
-    }
-    var end: number = Date.now();
-    var time: string = `Calculation time: ${end - start} milliseconds`;
-    return [time, possibilities, true];
+    return res;
 }
 
-var ball = 4;
-var period = 6;
-var [t, p, e]: [string, Array<Toss>, boolean] = calc(ball, period);
+function calc(ball: number, period: number): [string, BallGroup, number, boolean] {
+    let start: number = Date.now();
+    let possibilities: Array<Toss> = juggle(ball, period);
+    possibilities = filterByPeriod(possibilities, period);
+    try {
+        possibilities = sortBySiteswap(possibilities);
+    } catch (_) {
+        return ['', {}, 0, false];
+    }
+    possibilities = filterRotationaryDuplicates(possibilities);
+    let total: number = possibilities.length;
+    let res: BallGroup = groupByBall(possibilities);
+    let end: number = Date.now();
+    let time: string = `Calculation time: ${end - start} milliseconds`;
+    return [time, res, total, true];
+}
+
+let ball = 4;
+let period = 6;
+let [t, p, l, e]: [string, BallGroup, number, boolean] = calc(ball, period);
 if (e) {
     console.log(t);
-    console.log(`${p.length} answers:`);
-    for (let x of p) {
-        console.log(x.siteswap);
+    console.log(`${l} answers total`);
+    console.log();
+    for (let [ball, tosses] of Object.entries(p)) {
+        let s: string;
+        if (+ball === 1) {
+            s = '';
+        } else {
+            s = 's';
+        }
+        console.log(`${ball} ball${s}: ${tosses.length} results`);
+        for (let x of tosses) {
+            console.log(x.siteswap);
+        }
+        console.log();
     }
 } else {
     console.log("Error");

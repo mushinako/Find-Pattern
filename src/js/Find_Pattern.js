@@ -6,12 +6,12 @@ class Toss {
         this.ss_length = this.siteswap.length;
     }
     stack2Siteswap() {
-        var tbs = [];
+        let tbs = [];
         for (let i = 0; i < this.maxball; i++) {
             tbs.push(i);
         }
-        var tbso = tbs.slice(0);
-        var hand = [];
+        let tbso = tbs.slice(0);
+        let hand = [];
         do {
             for (let x of this.stack) {
                 let in_hand = tbs.shift();
@@ -19,8 +19,8 @@ class Toss {
                 tbs.splice(x - 1, 0, in_hand);
             }
         } while (!sameNumberArray(tbs, tbso));
-        var ss = [];
-        var l = hand.length;
+        let ss = [];
+        let l = hand.length;
         for (let i = l - 1; i >= 0; i--) {
             let found = false;
             for (let j = i + 1; j < l; j++) {
@@ -34,7 +34,7 @@ class Toss {
                 ss.unshift(l - i + hand.indexOf(hand[i]));
             }
         }
-        var ml = ss.length;
+        let ml = ss.length;
         for (let i = 1; i <= Math.floor(ml / 2); i++) {
             if (!(ml % i)) {
                 if (ss.every((cur, j, arr) => j < arr.length - i ? cur === arr[j + i] : true)) {
@@ -59,8 +59,7 @@ function sameNumberArray(arr1, arr2) {
     }
 }
 function juggle(b, p) {
-    // Get all ball^period tosses
-    var psbl = [];
+    let psbl = [];
     for (let i = 0; i < Math.pow(b, p); i++) {
         let tmp = [];
         let bl = i;
@@ -73,7 +72,7 @@ function juggle(b, p) {
     return psbl;
 }
 function filterByPeriod(psbl, target) {
-    var res = [];
+    let res = [];
     for (let x of psbl) {
         if (x.ss_length === target) {
             res.push(x);
@@ -82,8 +81,8 @@ function filterByPeriod(psbl, target) {
     return res;
 }
 function filterRotationaryDuplicates(psbl) {
-    var res = [];
-    var counted = [];
+    let res = [];
+    let counted = [];
     for (let x of psbl) {
         let y = x.siteswap.slice(0);
         if (!counted.some((cur) => sameNumberArray(cur, y))) {
@@ -117,37 +116,57 @@ function sortBySiteswap(c) {
     return c;
 }
 function groupByBall(c) {
-    throw new Error("Not implemented yet");
+    let res = {};
+    let len_arr = [];
+    for (let x of c) {
+        let mb = x.maxball;
+        if (len_arr.includes(mb)) {
+            res[mb].push(x);
+        }
+        else {
+            len_arr.push(mb);
+            res[mb] = [x];
+        }
+    }
+    return res;
 }
-function calc(ball, period, ss_sort = true, group_ball = false) {
-    var start = Date.now();
-    var possibilities = juggle(ball, period);
+function calc(ball, period) {
+    let start = Date.now();
+    let possibilities = juggle(ball, period);
     possibilities = filterByPeriod(possibilities, period);
-    if (ss_sort) {
-        try {
-            possibilities = sortBySiteswap(possibilities);
-        }
-        catch (_) {
-            return ['', [], false];
-        }
+    try {
+        possibilities = sortBySiteswap(possibilities);
+    }
+    catch (_) {
+        return ['', {}, 0, false];
     }
     possibilities = filterRotationaryDuplicates(possibilities);
-    if (group_ball) {
-        console.log("Grouping");
-        possibilities = groupByBall(possibilities);
-    }
-    var end = Date.now();
-    var time = `Calculation time: ${end - start} milliseconds`;
-    return [time, possibilities, true];
+    let total = possibilities.length;
+    let res = groupByBall(possibilities);
+    let end = Date.now();
+    let time = `Calculation time: ${end - start} milliseconds`;
+    return [time, res, total, true];
 }
-var ball = 4;
-var period = 6;
-var [t, p, e] = calc(ball, period);
+let ball = 4;
+let period = 6;
+let [t, p, l, e] = calc(ball, period);
 if (e) {
     console.log(t);
-    console.log(`${p.length} answers:`);
-    for (let x of p) {
-        console.log(x.siteswap);
+    console.log(`${l} answers total`);
+    console.log();
+    for (let [ball, tosses] of Object.entries(p)) {
+        let s;
+        if (+ball === 1) {
+            s = '';
+        }
+        else {
+            s = 's';
+        }
+        console.log(`${ball} ball${s}: ${tosses.length} results`);
+        for (let x of tosses) {
+            console.log(x.siteswap);
+        }
+        console.log();
     }
 }
 else {
