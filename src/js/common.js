@@ -1,6 +1,5 @@
-dgebi = s => document.getElementById(s);
-
-dgebtn = s => document.getElementsByTagName(s);
+var dgebi = s => document.getElementById(s);
+var dgebtn = s => document.getElementsByTagName(s);
 
 function containerResize() {
     var win_wid = $(window).width();
@@ -14,5 +13,5 @@ function resizer() {
     containerResize();
     $(window).resize(() => {
         containerResize();
-    });
+});
 }

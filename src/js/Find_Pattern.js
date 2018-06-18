@@ -7,9 +7,8 @@ class Toss {
     }
     stack2Siteswap() {
         let tbs = [];
-        for (let i = 0; i < this.maxball; i++) {
+        for (let i = 0; i < this.maxball; i++)
             tbs.push(i);
-        }
         let tbso = tbs.slice(0);
         let hand = [];
         do {
@@ -23,40 +22,29 @@ class Toss {
         let l = hand.length;
         for (let i = l - 1; i >= 0; i--) {
             let found = false;
-            for (let j = i + 1; j < l; j++) {
+            for (let j = i + 1; j < l; j++)
                 if (hand[i] === hand[j]) {
                     ss.unshift(j - i);
                     found = true;
                     break;
                 }
-            }
-            if (!found) {
+            if (!found)
                 ss.unshift(l - i + hand.indexOf(hand[i]));
-            }
         }
         let ml = ss.length;
-        for (let i = 1; i <= Math.floor(ml / 2); i++) {
-            if (!(ml % i)) {
-                if (ss.every((cur, j, arr) => j < arr.length - i ? cur === arr[j + i] : true)) {
-                    ss = ss.slice(0, i);
-                }
-            }
-        }
+        for (let i = 1; i <= Math.floor(ml / 2); i++)
+            if (!(ml % i) && ss.every((cur, j, arr) => j < arr.length - i ? cur === arr[j + i] : true))
+                ss = ss.slice(0, i);
         return ss;
     }
 }
 function sameNumberArray(arr1, arr2) {
-    if (arr1.length !== arr2.length) {
+    if (arr1.length !== arr2.length)
         return false;
-    }
-    else {
-        for (let i = 0; i < arr1.length; i++) {
-            if (arr1[i] !== arr2[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
+    for (let i = 0; i < arr1.length; i++)
+        if (arr1[i] !== arr2[i])
+            return false;
+    return true;
 }
 function juggle(b, p) {
     let psbl = [];
@@ -73,11 +61,9 @@ function juggle(b, p) {
 }
 function filterByPeriod(psbl, target) {
     let res = [];
-    for (let x of psbl) {
-        if (x.ss_length === target) {
+    for (let x of psbl)
+        if (x.ss_length === target)
             res.push(x);
-        }
-    }
     return res;
 }
 function filterRotationaryDuplicates(psbl) {
@@ -101,17 +87,12 @@ function sortBySiteswap(c) {
     c.sort((a, b) => {
         let ass = a.siteswap;
         let bss = b.siteswap;
-        if (ass.length !== bss.length) {
+        if (ass.length !== bss.length)
             return ass.length - bss.length;
-        }
-        else {
-            for (let i = 0; i < ass.length; i++) {
-                if (ass[i] !== bss[i]) {
-                    return ass[i] - bss[i];
-                }
-            }
-            throw new RangeError("There should not be a match!");
-        }
+        for (let i = 0; i < ass.length; i++)
+            if (ass[i] !== bss[i])
+                return ass[i] - bss[i];
+        throw new RangeError("There should not be a match!");
     });
     return c;
 }
@@ -130,45 +111,17 @@ function groupByBall(c) {
     }
     return res;
 }
-function calc(ball, period) {
-    let start = Date.now();
-    let possibilities = juggle(ball, period);
-    possibilities = filterByPeriod(possibilities, period);
+function toss(b, p) {
+    let possibilities = juggle(b, p);
+    possibilities = filterByPeriod(possibilities, p);
     try {
         possibilities = sortBySiteswap(possibilities);
     }
     catch (_) {
-        return ['', {}, 0, false];
+        return [{}, 0, false];
     }
     possibilities = filterRotationaryDuplicates(possibilities);
     let total = possibilities.length;
     let res = groupByBall(possibilities);
-    let end = Date.now();
-    let time = `Calculation time: ${end - start} milliseconds`;
-    return [time, res, total, true];
-}
-let ball = 4;
-let period = 6;
-let [t, p, l, e] = calc(ball, period);
-if (e) {
-    console.log(t);
-    console.log(`${l} answers total`);
-    console.log();
-    for (let [ball, tosses] of Object.entries(p)) {
-        let s;
-        if (+ball === 1) {
-            s = '';
-        }
-        else {
-            s = 's';
-        }
-        console.log(`${ball} ball${s}: ${tosses.length} results`);
-        for (let x of tosses) {
-            console.log(x.siteswap);
-        }
-        console.log();
-    }
-}
-else {
-    console.log("Error");
+    return [res, total, true];
 }
