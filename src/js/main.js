@@ -5,11 +5,10 @@ var bs;
 var plrl = n => n === 1 ? "" : "s";
 
 function main() {
-    let clear = ["quest", "calctime", "predict", "tosstime", "total", "results", "download"];
-    for (let x of clear) dgebi(x).innerHTML = "";
-    dgebi("errornum").innerHTML = "&nbsp;";
-    dgebi("tosstime").style.color = "black";
+    if (dgebi("dn")) dgebi("dn").removeEventListener("click", () => dn("results", "juggle"));
     dgebi("results").style.display = "none";
+    let clear = ["quest", "calctime", "predict", "tosstime", "total", "results", "download", "error", "errors"];
+    for (let x of clear) dgebi(x).innerHTML = "";
     let san_ball = sanitize(dgebi("ball").value);
     let san_period = sanitize(dgebi("period").value);
     if (san_ball[0] && san_period[0]) {
@@ -25,12 +24,16 @@ function main() {
             for (let b of dgebtn("button")) b.disabled = false;
             for (let i of dgebtn("input")) i.disabled = false;
         } else {
-            if (ball <= 0) dgebi("errornum").innerHTML += "At least 1 ball is needed! ";
-            if (period <= 0) dgebi("errornum").innerHTML += "At least 1 period is needed! ";
+            let errornum = "";
+            if (ball <= 0) errornum += "At least 1 ball is needed! ";
+            if (period <= 0) errornum += "At least 1 period is needed! ";
+            alert(errornum);
         }
     } else {
-        if (!san_ball[0]) dgebi("errornum").innerHTML += "Number format error for balls! ";
-        if (!san_period[0]) dgebi("errornum").innerHTML += "Number format error for periods! ";
+        let errornum = "";
+        if (!san_ball[0]) errornum += "Number format error for balls! ";
+        if (!san_period[0]) errornum += "Number format error for periods! ";
+        alert(errornum);
     }
 }
 
@@ -45,8 +48,7 @@ function sanitize(input) {
 function mainCalc() {
     let start = Date.now();
     if (m) {
-        dgebi("calctime").style.color = "red";
-        dgebi("calctime").innerHTML = "Damn you hack :/";
+        dgebi("calcerror").innerHTML = "Damn you hack :/";
     } else if (w) {
         wk(factor + divider + mu + calc + `var b=${ball},p=${period};postMessage(calc(b,p))`, start, "calc");
     } else {
@@ -65,8 +67,7 @@ function showCalc(sum, sums, start) {
 function mainToss() {
     let start = Date.now();
     if (m) {
-        dgebi("calctime").style.color = "red";
-        dgebi("tosstime").innerHTML = "Damn you hack :/";
+        dgebi("tosserror").innerHTML = "Damn you hack :/";
     } else if (w) {
         wk(Toss + sameNumberArray + juggle + filterByPeriod + filterRotationaryDuplicates + sortBySiteswap + groupByBall + toss + `var b=${ball},p=${period};postMessage(toss(b,p))`, start, "toss");
     } else {
@@ -85,10 +86,12 @@ function showToss(p_arr, total, no_error, start) {
             for (let x of tosses) dgebi("results").innerHTML += `${x.siteswap}\n`;
             dgebi("results").innerHTML += "\n";
         }
-        if (Boolean(Blob)) dgebi("download").innerHTML = "<button onclick=\"dn()\">Download results</button>";
+        if (Boolean(Blob)) {
+            dgebi("download").innerHTML = "<button id=\"dn\">Download results</button>";
+            dgebi("dn").addEventListener("click", () => dn("results", "juggle"));
+        }
     } else {
-        dgebi("tosstime").style.color = "red";
-        dgebi("tosstime").innerHTML = "<b>Calculation error! Please <a href=\"https://github.com/Mushinako/Find-Pattern/issues\">file an issue</a>! Much thanks!</b>";
+        dgebi("tosserror").innerHTML = "Calculation error! Please <a href=\"https://github.com/Mushinako/Find-Pattern/issues\">file an issue</a>! Much thanks!";
     }
 }
 
@@ -98,14 +101,16 @@ function wk(code, start, func) {
     worker.onmessage = message => {
         if (func === "toss") {
             showToss(...message.data, start);
-        } else {
+        } else if (func === "calc") {
             showCalc(...message.data, start);
+        } else {
+            throw new RangeError("Invalid Worker function!");
         }
     }
 }
 
-function dn() {
-    let data = dgebi("results").innerHTML.replace(/\n/g, "\r\n");
+function dn(source, name) {
+    let data = dgebi(source).innerHTML.replace(/\n/g, "\r\n");
     let blob = new Blob([data], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "juggle.txt");
+    saveAs(blob, "${name}.txt");
 }

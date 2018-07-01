@@ -26,7 +26,7 @@ textarea {
     display: none;
 }
 
-.content {
+#content {
     width: 600px;
     position: absolute;
     top: 10%;
@@ -36,7 +36,7 @@ textarea {
     display: none;
 }
 
-#errornum {
+#calcerror, #tosserror, #error {
     color: red;
     font-weight: bold;
 }
