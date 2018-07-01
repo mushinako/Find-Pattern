@@ -7,24 +7,20 @@ function factor(n) {
         for (;; i++) {
             if (!(n % i)) {
                 n /= i;
-                if (res[i] === undefined) {
+                if (res[i] === undefined)
                     res[i] = 1;
-                }
-                else {
+                else
                     res[i]++;
-                }
                 break;
             }
             if (i >= Math.floor(Math.sqrt(n)))
                 break whole_loop;
         }
     }
-    if (res[n] === undefined) {
+    if (res[n] === undefined)
         res[n] = 1;
-    }
-    else {
+    else
         res[n]++;
-    }
     return res;
 }
 function divider(n) {

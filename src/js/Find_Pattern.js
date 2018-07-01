@@ -11,13 +11,13 @@ class Toss {
             tbs.push(i);
         let tbso = tbs.slice(0);
         let hand = [];
-        do {
+        do
             for (let x of this.stack) {
                 let in_hand = tbs.shift();
                 hand.push(in_hand);
                 tbs.splice(x - 1, 0, in_hand);
             }
-        } while (!sameNumberArray(tbs, tbso));
+        while (!sameNumberArray(tbs, tbso));
         let ss = [];
         let l = hand.length;
         for (let i = l - 1; i >= 0; i--) {
@@ -101,9 +101,8 @@ function groupByBall(c) {
     let len_arr = [];
     for (let x of c) {
         let mb = x.maxball;
-        if (len_arr.includes(mb)) {
+        if (len_arr.includes(mb))
             res[mb].push(x);
-        }
         else {
             len_arr.push(mb);
             res[mb] = [x];
@@ -117,11 +116,11 @@ function toss(b, p) {
     try {
         possibilities = sortBySiteswap(possibilities);
     }
-    catch (_) {
-        return [{}, 0, false];
+    catch (e) {
+        return [{}, 0, false, e];
     }
     possibilities = filterRotationaryDuplicates(possibilities);
     let total = possibilities.length;
     let res = groupByBall(possibilities);
-    return [res, total, true];
+    return [res, total, true, ""];
 }
