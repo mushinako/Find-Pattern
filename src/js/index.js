@@ -1,7 +1,7 @@
 var m, w;
 
 window.addEventListener("load", () => {
-    dgebi("content").style.display = "block";
+    dgebi("content").style.display = "inherit";
     m = Boolean(undefined); // Unimplemented
     w = Boolean(window.Worker);
     let methods = "";
@@ -26,4 +26,5 @@ window.addEventListener("load", () => {
     }
     resizer();
     dgebi("calc").addEventListener("click", main);
+    dgebi("meh").addEventListener("click", () => dgebi("nah").style.display = "inherit");
 });

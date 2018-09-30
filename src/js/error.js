@@ -1,4 +1,5 @@
 var errors = [];
+
 window.onerror = (msg, source, lineno, colno, error) => {
     let s = msg.toLowerCase();
     let ss = "script error";
@@ -18,6 +19,7 @@ window.onerror = (msg, source, lineno, colno, error) => {
     }
     showError();
 };
+
 document.addEventListener("error", (event) => {
     if (event.target && event.target.src) {
         errors.push({
@@ -33,7 +35,9 @@ document.addEventListener("error", (event) => {
     }
     showError();
 }, true);
+
 function showError() {
     dgebi("error").innerHTML = "Calculation error! Please <a href=\"https://github.com/Mushinako/Find-Pattern/issues\">file an issue</a> with the log below! Much thanks!";
-    dgebi("errors").innerHTML = `${errors}`;
+    dgebi("errors").style.display = "inherit";
+    dgebi("errors").innerHTML = errors.length ? `${JSON.stringify(errors, null, 4)}` : "Unidentified error! Please explain how you get this error.";
 }

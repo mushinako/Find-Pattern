@@ -5,7 +5,7 @@ var bs;
 var plrl = n => n === 1 ? "" : "s";
 
 function main() {
-    if (dgebi("dn")) dgebi("dn").removeEventListener("click", () => dn("results", "juggle"));
+    if (dgebi("download")) dgebi("download").removeEventListener("click", () => dn("results", "juggle"));
     dgebi("results").style.display = "none";
     let clear = ["quest", "calctime", "predict", "tosstime", "total", "results", "download", "error", "errors"];
     for (let x of clear) dgebi(x).innerHTML = "";
@@ -66,16 +66,12 @@ function showCalc(sum, sums, start) {
 
 function mainToss() {
     let start = Date.now();
-    if (m) {
-        dgebi("tosserror").innerHTML = "Damn you hack :/";
-    } else if (w) {
-        wk(Toss + sameNumberArray + juggle + filterByPeriod + filterRotationaryDuplicates + sortBySiteswap + groupByBall + toss + `var b=${ball},p=${period};postMessage(toss(b,p))`, start, "toss");
-    } else {
-        showToss(...toss(ball, period), start);
-    }
+    if (m) dgebi("tosserror").innerHTML = "Damn you hack :/";
+    else if (w) wk(Toss + sameNumberArray + juggle + filterByPeriod + filterRotationaryDuplicates + sortBySiteswap + groupByBall + toss + `var b=${ball},p=${period};postMessage(toss(b,p))`, start, "toss");
+    else showToss(...toss(ball, period), start);
 }
 
-function showToss(p_arr, total, no_error, start) {
+function showToss(p_arr, total, no_error, error, start) {
     let end = Date.now();
     if (no_error) {
         dgebi("tosstime").innerHTML = `Tossing took ${end - start} milliseconds`;
@@ -91,7 +87,7 @@ function showToss(p_arr, total, no_error, start) {
             dgebi("dn").addEventListener("click", () => dn("results", "juggle"));
         }
     } else {
-        dgebi("tosserror").innerHTML = "Calculation error! Please <a href=\"https://github.com/Mushinako/Find-Pattern/issues\">file an issue</a>! Much thanks!";
+        dgebi("tosserror").innerHTML = `Calculation error!\n${error}\nPlease <a href=\"https://github.com/Mushinako/Find-Pattern/issues\">file an issue</a>! Much thanks!`;
     }
 }
 
@@ -99,13 +95,9 @@ function wk(code, start, func) {
     let blob = new Blob([code], {type: "application/javascript"});;
     worker = new Worker(URL.createObjectURL(blob));
     worker.onmessage = message => {
-        if (func === "toss") {
-            showToss(...message.data, start);
-        } else if (func === "calc") {
-            showCalc(...message.data, start);
-        } else {
-            throw new RangeError("Invalid Worker function!");
-        }
+        if (func === "toss") showToss(...message.data, start);
+        else if (func === "calc") showCalc(...message.data, start);
+        else throw new RangeError("Invalid Worker function!");
     }
 }
 

@@ -4,7 +4,7 @@ input {
 }
 
 input[type="number"] {
-    font-family: "SteelCity";
+    font-family: "Raleway", sans-serif;
 }
 
 table {
@@ -17,7 +17,7 @@ td {
 }
 
 textarea {
-    font-family: "SteelCity";
+    font-family: "Raleway", sans-serif;
     font-size: 12pt;
     border: none;
     background: #f5f5f5;
@@ -26,10 +26,36 @@ textarea {
     display: none;
 }
 
+/* details {
+    transition: height .5s ease-in-out;
+}
+
+details[open] {
+    height: 20em;
+}
+
+details:not([open]) {
+    height: 1em;
+}
+
+details[open] summary ~ * {
+    animation: reveal .5s ease-in-out;
+}
+
+@keyframes reveal {
+    0%   {opacity: 0; margin-left: -.5em;}
+    100% {opacity: 1; margin-left: 0;}
+}
+
+@keyframes movex {
+    0%   {margin-top: 0;}
+    100% {margin-top: 0;}
+} */
+
 #content {
     width: 600px;
     position: absolute;
-    top: 10%;
+    top: 5%;
     left: 50%;
     margin-left: -300px;
     margin-top: 0;
@@ -39,4 +65,12 @@ textarea {
 #calcerror, #tosserror, #error {
     color: red;
     font-weight: bold;
+}
+
+#nah {
+    display: none;
+}
+
+#errors {
+    font-family: "Roboto", sans-serif;
 }
