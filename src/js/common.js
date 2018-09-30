@@ -13,5 +13,5 @@ function resizer() {
     containerResize();
     $(window).resize(() => {
         containerResize();
-});
+    });
 }
