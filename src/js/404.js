@@ -3,6 +3,8 @@ window.onload = function () {
     init();
 }
 
+// Animated 404 by sayafang
+
 function init() {
     // Camera
     let camera = new THREE.PerspectiveCamera(80, 1, 0.1, 10000);
@@ -21,8 +23,6 @@ function init() {
     scene.add(camera);
 
     $('.bola').append(renderer.domElement);
-
-    ///////////////////////////////////////////////
 
     // Material
     let pinkMat = new THREE.MeshPhongMaterial({

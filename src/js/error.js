@@ -3,36 +3,26 @@ var errors = [];
 window.onerror = (msg, source, lineno, colno, error) => {
     let s = msg.toLowerCase();
     let ss = "script error";
-    if (s.includes(ss)) {
-        errors.push({
-            msg: "Script Error"
-        });
-    }
-    else {
-        errors.push({
-            msg: msg,
-            source: source,
-            line: lineno,
-            coln: colno,
-            error: JSON.stringify(error)
-        });
-    }
+    errors.push(s.includes(ss) ? {
+        msg: "Script Error"
+    } : {
+        msg: msg,
+        source: source,
+        line: lineno,
+        coln: colno,
+        error: JSON.stringify(error)
+    });
     showError();
 };
 
 document.addEventListener("error", (event) => {
-    if (event.target && event.target.src) {
-        errors.push({
-            msg: "Resource not found",
-            source: event.target.src
-        });
-    }
-    else {
-        errors.push({
-            msg: "Unknown error",
-            error: JSON.stringify(event)
-        });
-    }
+    errors.push(event.target && event.target.src ? {
+        msg: "Resource not found",
+        source: event.target.src
+    } : {
+        msg: "Unknown error",
+        error: JSON.stringify(event)
+    });
     showError();
 }, true);
 

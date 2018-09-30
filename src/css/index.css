@@ -67,10 +67,6 @@ details[open] summary ~ * {
     font-weight: bold;
 }
 
-#nah {
-    display: none;
-}
-
 #errors {
     font-family: "Roboto", sans-serif;
 }

@@ -11,7 +11,5 @@ function containerResize() {
 
 function resizer() {
     containerResize();
-    $(window).resize(() => {
-        containerResize();
-    });
+    $(window).resize(() => containerResize());
 }

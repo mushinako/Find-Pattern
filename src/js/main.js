@@ -39,21 +39,16 @@ function main() {
 
 function sanitize(input) {
     let e_input = input.split(/e/i);
-    if (e_input.length === 1) {
-        if (/^\d+\.?\d*$/g.test(e_input[0])) return [true, Math.ceil(+e_input[0])];
-    } else if (e_input.length === 2 && /^[0-9]+$/g.test(e_input[1]) && /^\d+\.?\d*$/g.test(e_input[0])) return [true, Math.ceil(+e_input[0] * Math.pow(10, +e_input[1]))];
+    if (e_input.length === 1) if (/^\d+\.?\d*$/g.test(e_input[0])) return [true, Math.ceil(+e_input[0])];
+    else if (e_input.length === 2 && /^[0-9]+$/g.test(e_input[1]) && /^\d+\.?\d*$/g.test(e_input[0])) return [true, Math.ceil(+e_input[0] * Math.pow(10, +e_input[1]))];
     return [false, 0];
 }
 
 function mainCalc() {
     let start = Date.now();
-    if (m) {
-        dgebi("calcerror").innerHTML = "Damn you hack :/";
-    } else if (w) {
-        wk(factor + divider + mu + calc + `var b=${ball},p=${period};postMessage(calc(b,p))`, start, "calc");
-    } else {
-        showCalc(...calc(ball, period), start);
-    }
+    if (m) dgebi("calcerror").innerHTML = "Damn you hack :/";
+    else if (w) wk(factor + divider + mu + calc + `var b=${ball},p=${period};postMessage(calc(b,p))`, start, "calc");
+    else showCalc(...calc(ball, period), start);
 }
 
 function showCalc(sum, sums, start) {

@@ -54,10 +54,12 @@ a:visited {
 }
 
 a:hover {
+    background-color: #ccc;
     color: hotpink;
 }
 
 a:active {
+    background-color: #ccc;
     color: maroon;
 }
 
@@ -65,10 +67,16 @@ a:active {
     display: inline-block;
     position: relative;
     z-index: 1;
-    margin: -6em;
+    margin: 1em;
+    margin-top: 0em;
     background-color: #f5f5f5;
     padding: 10px 20px;
     text-align: center;
+}
+
+.header a:hover {
+    background-color: #ccc;
+    border-radius: 20px;
 }
 
 .header {
