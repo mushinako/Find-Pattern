@@ -6,7 +6,7 @@
 - [ ] Calculation
     - [x] Loop
     - [x] Web Worker
-    - [ ] WebAssembly (Currently working on, in `beta`)
+    - [ ] WebAssembly (Currently working on, in [`beta`](https://github.com/Mushinako/Find-Pattern/tree/beta))
 - [ ] Simulation
     - [x] Loop
     - [x] Web Worker
