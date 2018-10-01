@@ -6,13 +6,13 @@
 - [ ] Calculation
     - [x] Loop
     - [x] Web Worker
-    - [ ] WebAssembly
+    - [ ] WebAssembly (Currently working on, in `beta`)
 - [ ] Simulation
     - [x] Loop
     - [x] Web Worker
     - [ ] WebAssembly
-- [ ] Everything else
 - [ ] Life goals
+- [ ] Everything else
 
 ## Contributions
 Definitely! Any contribution is greatly appreciated! Submit issues, and/or create a pull request if you know how to modify the code.
