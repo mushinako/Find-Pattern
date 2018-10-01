@@ -7,6 +7,10 @@ strong {
     font-weight: bold;
 }
 
+#js {
+    display: none;
+}
+
 /* Animated 404 by sayafang */
 
 .mini {

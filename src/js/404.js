@@ -1,4 +1,6 @@
 window.onload = function () {
+    dgebi("js").style.display = "inherit";
+    dgebi("no-js").style.display = "none";
     resizer();
     init();
 }

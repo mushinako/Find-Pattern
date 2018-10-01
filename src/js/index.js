@@ -23,4 +23,11 @@ window.addEventListener("load", () => {
     resizer();
     dgebi("calc").addEventListener("click", main);
     dgebi("meh").addEventListener("click", () => alert("Maybe I can optimize it but, ¯\\_(ツ)_/¯"));
+    dgebi("nah").addEventListener("click", () => {
+        (async () => window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ").focus())();
+        alert("Obviously it's not supported (」ﾟヘﾟ)」\nI could've made it compatible but, (´π`)\nAlso, apologies for my ignorance.\nSome people just don't know the existence of browsers.\n*Clears throat*\nThere is a category of programs called browsers.\nYou can find 2 examples using the previous 2 links.");
+    });
+    dgebi("e-n").addEventListener("click", () => window.open("https://en.wikipedia.org/wiki/Scientific_notation#E-notation").focus());
+    dgebi("chrome").addEventListener("click", () => window.open("https://www.google.com/chrome/").focus());
+    dgebi("firefox").addEventListener("click", () => window.open("https://www.mozilla.org/en-US/firefox/").focus());
 });
