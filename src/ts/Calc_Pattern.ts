@@ -7,16 +7,14 @@ function factor(n: number): Factor {
     let res: Factor = {};
     let i: number = 2;
     whole_loop:
-    while (n > i) {
-        for (;; i++) {
-            if (!(n % i)) {
-                n /= i;
-                if (res[i] === undefined) res[i] = 1;
-                else res[i]++;
-                break;
-            }
-            if (i >= Math.floor(Math.sqrt(n))) break whole_loop;
+    while (n > i) for (;; i++) {
+        if (!(n % i)) {
+            n /= i;
+            if (res[i] === undefined) res[i] = 1;
+            else res[i]++;
+            break;
         }
+        if (i >= Math.floor(Math.sqrt(n))) break whole_loop;
     }
     if (res[n] === undefined) res[n] = 1;
     else res[n]++;
@@ -64,7 +62,7 @@ function calc(b: number, p: number): [number, number[]] {
         let m: number = mu(p / x);
         if (m) {
             sum += m * Math.pow(b, x);
-            for (let i: number = 0; i < b; i++) sums[i] += m * (Math.pow(i + 1, x) - Math.pow(i, x));
+            for (let i: number = 0; i < b; i++) sums[i] += m * (Math.pow(i+1, x) - Math.pow(i, x));
         }
     }
     return [sum / p, sums.map(cur => cur / p)];

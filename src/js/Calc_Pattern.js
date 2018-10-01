@@ -3,7 +3,7 @@ function factor(n) {
         return {};
     let res = {};
     let i = 2;
-    whole_loop: while (n > i) {
+    whole_loop: while (n > i)
         for (;; i++) {
             if (!(n % i)) {
                 n /= i;
@@ -16,7 +16,6 @@ function factor(n) {
             if (i >= Math.floor(Math.sqrt(n)))
                 break whole_loop;
         }
-    }
     if (res[n] === undefined)
         res[n] = 1;
     else
