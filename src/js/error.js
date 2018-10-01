@@ -1,4 +1,8 @@
-var errors = [];
+var errors = [{
+    blob: b,
+    wasm: m,
+    worker: w
+}];
 
 window.onerror = (msg, source, lineno, colno, error) => {
     let s = msg.toLowerCase();

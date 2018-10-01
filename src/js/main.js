@@ -2,27 +2,34 @@ var worker;
 var ball, period;
 var bs;
 
+// Check Singular/Plural
+// Yeah I'm Perfectionist What's the Problem
 var plrl = n => n === 1 ? "" : "s";
 
-function main() {
-    if (dgebi("download")) dgebi("download").removeEventListener("click", () => dn("results", "juggle"));
-    dgebi("results").style.display = "none";
-    let clear = ["quest", "calctime", "predict", "tosstime", "total", "results", "download", "error", "errors"];
-    for (let x of clear) dgebi(x).innerHTML = "";
+// Preparations for Calculations
+function prep() {
+    // Sanitize Inputs
     let san_ball = sanitize(dgebi("ball").value);
     let san_period = sanitize(dgebi("period").value);
     if (san_ball[0] && san_period[0]) {
         ball = san_ball[1];
         period = san_period[1];
         if (ball > 0 && period > 0) {
+            // Clear Outputs (Refilled in showCalc and showToss)
+            if (dgebi("download")) dgebi("download").removeEventListener("click", () => dn("results", "juggle"));
+            dgebi("results").style.display = "none";
+            let clear = ["quest", "calcerror", "calctime", "predict", "tosserror", "tosstime", "total", "results", "download", "error", "errors"];
+            for (let x of clear) dgebi(x).innerHTML = "";
+            // Disable Inputs (Reenabled in mainToss and showToss)
             for (let b of dgebtn("button")) b.disabled = true;
             for (let i of dgebtn("input")) i.disabled = true;
+            // Calculation Indicator (Changed in showToss)
             bs = plrl(ball);
-            dgebi("quest").innerHTML = `Tossing with a maximum of ${ball} ball${bs} with a period of ${period}`;
+            dgebi("quest").innerHTML = `Tossing with a maximum of ${ball} ball${bs} with a period of ${period}...`;
+            // Calculation
             mainCalc();
+            // Simulation
             mainToss();
-            for (let b of dgebtn("button")) b.disabled = false;
-            for (let i of dgebtn("input")) i.disabled = false;
         } else {
             let errornum = "";
             if (ball <= 0) errornum += "At least 1 ball is needed! ";
@@ -37,6 +44,7 @@ function main() {
     }
 }
 
+// Sanitize Inputs
 function sanitize(input) {
     let e_input = input.split(/e/i);
     if (e_input.length === 1) if (/^\d+\.?\d*$/g.test(e_input[0])) return [true, Math.ceil(+e_input[0])];
@@ -44,10 +52,14 @@ function sanitize(input) {
     return [false, 0];
 }
 
+// Calculations
 function mainCalc() {
     let start = Date.now();
-    if (m) dgebi("calcerror").innerHTML = "Damn you hack :/";
+    // WASM, Unimplemented
+    if (m) dgebi("calcerror").innerHTML = "You hack :/";
+    // Worker
     else if (w) wk(factor + divider + mu + calc + `var b=${ball},p=${period};postMessage(calc(b,p))`, start, "calc");
+    // Loop
     else showCalc(...calc(ball, period), start);
 }
 
@@ -59,10 +71,19 @@ function showCalc(sum, sums, start) {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
 }
 
+// Simulations
 function mainToss() {
     let start = Date.now();
-    if (m) dgebi("tosserror").innerHTML = "Damn you hack :/";
+    // WASM, Unimplemented
+    if (m) {
+        dgebi("tosserror").innerHTML = "You hack :/";
+        dgebi("quest").innerHTML = "You hack :/";
+        for (let b of dgebtn("button")) b.disabled = false;
+        for (let i of dgebtn("input")) i.disabled = false;
+    }
+    // Worker
     else if (w) wk(Toss + sameNumberArray + juggle + filterByPeriod + filterRotationaryDuplicates + sortBySiteswap + groupByBall + toss + `var b=${ball},p=${period};postMessage(toss(b,p))`, start, "toss");
+    // Loop
     else showToss(...toss(ball, period), start);
 }
 
@@ -77,15 +98,25 @@ function showToss(p_arr, total, no_error, error, start) {
             for (let x of tosses) dgebi("results").innerHTML += `${x.siteswap}\n`;
             dgebi("results").innerHTML += "\n";
         }
-        if (Boolean(Blob)) {
-            dgebi("download").innerHTML = "<button id=\"dn\">Download results</button>";
-            dgebi("dn").addEventListener("click", () => dn("results", "juggle"));
+        if (b) {
+            dgebi("download").innerHTML = "<button id=\"dn\">Download Results</button>";
+            dgebi("dn").addEventListener("click", () => dn("results", "juggle_results.txt"));
         }
+        else dgebi("download").innerHTML = "<button id=\"dn\">No Blob, No File</button>";
+        dgebi("quest").innerHTML = "Tossing finished!";
+        for (let b of dgebtn("button")) b.disabled = false;
+        for (let i of dgebtn("input")) i.disabled = false;
+        if (!b) dgebi("dn").disabled = true;
     } else {
-        dgebi("tosserror").innerHTML = `Calculation error!\n${error}\nPlease <a href=\"https://github.com/Mushinako/Find-Pattern/issues\">file an issue</a>! Much thanks!`;
+        dgebi("tosserror").innerHTML = "Calculation error!";
+        dgebi("quest").innerHTML = "Tossing error!";
+        for (let b of dgebtn("button")) b.disabled = false;
+        for (let i of dgebtn("input")) i.disabled = false;
+        throw new Error(error)
     }
 }
 
+// Worker
 function wk(code, start, func) {
     let blob = new Blob([code], {type: "application/javascript"});;
     worker = new Worker(URL.createObjectURL(blob));
@@ -96,8 +127,9 @@ function wk(code, start, func) {
     }
 }
 
+// Downloader Using FileSaver.js by Eli Grey
 function dn(source, name) {
     let data = dgebi(source).innerHTML.replace(/\n/g, "\r\n");
     let blob = new Blob([data], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, "${name}.txt");
+    saveAs(blob, name);
 }
