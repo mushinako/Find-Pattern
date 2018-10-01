@@ -34,27 +34,18 @@ button:disabled {
 
 abbr {
     text-decoration: none;
-    color: blue;
-}
-
-abbr:hover {
-    color: skyblue;
 }
 
 a {
     text-decoration: none;
 }
 
-a:link {
+a:link, a:visited {
     color: red;
 }
 
-a:visited {
-    color: indigo;
-}
-
 a:hover {
-    background-color: #ccc;
+    background-color: #eee;
     color: hotpink;
 }
 
@@ -75,8 +66,12 @@ a:active {
 }
 
 .header a:hover {
-    background-color: #ccc;
+    background-color: #eee;
     border-radius: 20px;
+}
+
+.header a:active {
+    background-color: #ccc;
 }
 
 .header {
