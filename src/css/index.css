@@ -62,6 +62,10 @@ details[open] summary ~ * {
     display: none;
 }
 
+#quest {
+    font-style: italic;
+}
+
 #calcerror, #tosserror, #error {
     color: red;
     font-weight: bold;

@@ -1,12 +1,16 @@
 window.onload = function () {
+    // Display JavaScript-Related
     dgebi("js").style.display = "inherit";
     dgebi("no-js").style.display = "none";
+
+    // Initiate Resizer
     resizer();
+
+    // Animated 404 by sayafang
     init();
 }
 
 // Animated 404 by sayafang
-
 function init() {
     // Camera
     let camera = new THREE.PerspectiveCamera(80, 1, 0.1, 10000);

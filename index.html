@@ -45,6 +45,7 @@
         <div id="title">
             <p><strong>Juggle!</strong></p>
         </div>
+        <!-- <inputdiv> -->
         <div>
             <table>
                 <tr>
@@ -56,26 +57,29 @@
                 </tr>
             </table>
         </div>
+        <!-- </inputdiv> -->
+        <!-- <help> -->
         <div>
             <details>
                 <summary>
                     <b>How to use this?</b>
                 </summary>
-                <p id="info">Input the number of test cases as an integer, optionally in <a id="e-n" href="#"><abbr title="Exponential notation using 'e' in place of '10^'">"E-notation"</abbr></a>. E.g., a million can be represented as "1000000" or "1e6".</p>
+                <p>Input the number of test cases as an integer, optionally in <a id="e-n" href="https://en.wikipedia.org/wiki/Scientific_notation#E-notation" rel="noopener noreferrer" target="_blank"><abbr title="Exponential notation using 'e' in place of '10^'">"E-notation"</abbr></a>. E.g., a million can be represented as "1000000" or "1e6".</p>
                 <p>Please add 0's before decimal points when necessary, i.e., ".13e6" is <strong>not</strong> valid, but "0.13e6" is.</p>
                 <p>Non-integers will be rounded up.</p>
-                <p>Be aware that this algorithm is <a id="meh">\(O(b^p)\)</a>, thusly the amount of time required expoentially when ball/period increases.</p>
-                <p><b>Browser Compatibility:</b> Definitely works on <a id="chrome" href="#">Chrome v67+</a>, <a id="firefox" href="#">Firefox v60+</a>, and the beloved <a id="nah" href="#">Internet Explorer 1</a>.</p>
+                <p>Be aware that this algorithm is <a id="meh" href="#">\(O(b^p)\)</a>, thusly the amount of time required <a id="exp" href="#">expoentially</a> when ball/period increases.</p>
+                <p>This script works on <a id="chrome" href="https://www.google.com/chrome/" rel="noopener noreferrer" target="_blank">Chrome v67+</a>, <a id="firefox" href="https://www.mozilla.org/en-US/firefox/" rel="noopener noreferrer" target="_blank">Firefox v60+</a>, and the beloved <a id="nah" href="#">Internet Explorer 1+</a>. Testing on <a href="https://www.apple.com/safari/" rel="noopener noreferrer" target="_blank">Safari 11+</a> is incomplete.</p>
                 <div id="check">
                     <!-- <p id="wasm"></p> -->
                     <p id="worker"></p>
                 </div>
                 <p id="method"></p>
+                <div id="methods"></div>
             </details>
         </div>
-        <br>
+        <!-- </help> -->
+        <!-- <results> -->
         <div id="mx">
-            <div id="methods"></div>
             <p id="quest"></p>
             <p id="calcerror"></p>
             <p id="calctime"></p>
@@ -93,5 +97,6 @@
             <textarea id="errors" readonly></textarea>
             <br>
         </div>
+        <!-- </results> -->
     </div>
 </body>
