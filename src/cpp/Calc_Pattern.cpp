@@ -5,7 +5,7 @@ using namespace std;
 
 int sum;
 vector<int> sums;
-map<int, int> factor;
+map<int, int> factors;
 
 
 void factor(int n, map<int, int>& f) {
@@ -22,13 +22,14 @@ void factor(int n, map<int, int>& f) {
 
 int mu(int n) {
     // TODO: mu
+    return 0;
 }
 
 
 void calc(int b, int p) {
     sum = 0;
     sums.clear();
-    factor.clear();
+    factors.clear();
 
     if (p == 1) {
         sum = b;
@@ -44,7 +45,9 @@ void calc(int b, int p) {
         int m = mu(p / x);              // TODO: mu
         if (m) {
             sum += m * pow(b, x);
-            for (int i = 0; i < b; i++) sums[i] += m * (pow(i+1, x) - pow(i, x));
+            for (int i = 0; i < b; i++) {
+                sums[i] += m * (pow(i+1, x) - pow(i, x));
+            }
         }
     }
     return;
