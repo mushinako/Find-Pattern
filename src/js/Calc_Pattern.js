@@ -49,6 +49,9 @@ function divider(n) {
 }
 function mu(n) {
     let f = Object.entries(factor(n));
+    // Count for any factor > 1 -> 0
+    // Odd number of factors    -> -1
+    // Even number of factors   -> 1
     return f.some(cur => cur[1] > 1) ? 0 : f.length % 2 ? -1 : 1;
 }
 function calc(b, p) {
