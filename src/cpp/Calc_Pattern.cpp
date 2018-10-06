@@ -7,8 +7,6 @@ using namespace std;
 int sum;
 vector<int> sums;
 vector<int> dividers;
-// map<int, int> factors;
-// map<int, int>::iterator factors_it;
 
 
 map<int, int> factor(int n, map<int, int>& f) {
@@ -44,9 +42,12 @@ outta_loop:
 
 
 void divider(int n) {
+    dividers.clear();
+
     if (n == 1) {
         return;
     }
+
     map<int, int> fs = factor(n);
     int count = 1;
     vector<int> nums, occs;
@@ -55,6 +56,7 @@ void divider(int n) {
         occs.push_back(i->second + 1);
         count *= (i->second + 1);
     }
+
     int conf;
     int c;
     for (int i = 0; i < count; ++i) {
@@ -66,13 +68,20 @@ void divider(int n) {
         }
         dividers.push_back(conf);
     }
+
     sort(dividers.begin(), dividers.end());
 }
 
 
 int mu(int n) {
     // TODO: mu
-    return 0;
+    map<int, int> fs = factor(n);
+    for (map<int, int>::iterator i = fs.begin(); i != fs.end(); ++i) {
+        if (i->second > 1) {
+            return 0;
+        }
+    }
+    return (fs.size() % 2) ? -1 : 1;
 }
 
 
