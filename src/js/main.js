@@ -8,6 +8,7 @@ var plrl = n => n === 1 ? "" : "s";
 
 // Preparations for Calculations
 function prep(jugg) {
+    last = jugg ? "jugg" : "calc";
     // Sanitize Inputs
     let san_ball = sanitize(dgebi("ball").value);
     let san_period = sanitize(dgebi("period").value);

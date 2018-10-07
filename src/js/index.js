@@ -1,4 +1,6 @@
 var m, w, b;
+var errors;
+var last = "jugg";
 
 window.addEventListener("load", () => {
     // Display Main Body if JavaScript is Working
@@ -8,6 +10,11 @@ window.addEventListener("load", () => {
     m = Boolean(undefined); // Unimplemented
     b = Boolean(window.Blob);
     w = b && Boolean(window.Worker);
+    errors = [{
+        blob: b,
+        wasm: m,
+        worker: w
+    }];
     let methods = "";
     // if (m) {
     //     dgebi("wasm").innerHTML = "Your browser supports WebAssembly! Simulation would run faster than the alternative XD";
@@ -35,4 +42,9 @@ window.addEventListener("load", () => {
     dgebi("exp").addEventListener("click", () => alert("Not exactly true but, ¯\\_(ツ)_/¯"));
     dgebi("meh").addEventListener("click", () => alert("Maybe I can optimize it but, ¯\\_(ツ)_/¯"));
     dgebi("nah").addEventListener("click", () => alert("Obviously it's not supported (」ﾟヘﾟ)」\nI could've made it compatible but, (´π`)"));
+
+    // What If We Press Enter?
+    document.addEventListener("keydown", e => {
+        if (e.key === "Enter") dgebi(last).click();
+    });
 });
