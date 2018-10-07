@@ -18,7 +18,7 @@ window.addEventListener("load", () => {
         methods += "<button id=\"nmw\">Web Worker</button>\n";
     } else dgebi("worker").innerHTML = "Your browser does not support Web Workers! That\'s OK, just that the browser may freeze during large simulations :D";
     if (methods.length) {
-        dgebi("method").innerHTML = "You can choose different methods to use! Click on a method then the one you want to calculate!";
+        dgebi("method").innerHTML = "You can choose different methods to use! Click on a method then the one you want to calculate! The default is always the first option :)";
         dgebi("methods").innerHTML = methods + "<button id=\"nmnw\">Loop</button>";
         // if (m) dgebi("mw").addEventListener("click", () => m = true);
         if (w) dgebi("nmw").addEventListener("click", () => [m, w] = [false, true]);
