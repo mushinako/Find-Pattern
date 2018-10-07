@@ -1,22 +1,72 @@
 #include <cmath>
 #include <vector>
+#include <map>
 
 using namespace std;
 
 int sum;
 vector<int> sums;
-map<int, int> factors;
+vector<int> dividers;
+// map<int, int> factors;
+// map<int, int>::iterator factors_it;
 
 
-void factor(int n, map<int, int>& f) {
-    if (n == 1) return;
+map<int, int> factor(int n, map<int, int>& f) {
+    map<int, int> factors;
+    if (n == 1) {
+        return;
+    }
     int i = 2;
-    whole_loop:
-    while (n > i) for (;; i++) {
-        if (!(n % i)) {
-            n /= i;
+    while (n > i) {
+        for (;; ++i) {
+            if (!(n % i)) {
+                n /= i;
+                if (factors.find(i) == factors.end()) {
+                    factors[i] = 1;
+                } else {
+                    factors[i]++;
+                }
+                break;
+            }
+            if (i >= floor(sqrt(n))) {
+                goto outta_loop;
+            }
         }
     }
+outta_loop:
+    if (factors.find(n) == factors.end()) {
+        factors[n] = 1;
+    } else {
+        factors[n]++;
+    }
+    return factors;
+}
+
+
+void divider(int n) {
+    if (n == 1) {
+        return;
+    }
+    map<int, int> fs = factor(n);
+    int count = 1;
+    vector<int> nums, occs;
+    for (map<int, int>::iterator i = fs.begin(); i != fs.end(); ++i) {
+        nums.push_back(i->first);
+        occs.push_back(i->second + 1);
+        count *= (i->second + 1);
+    }
+    int conf;
+    int c;
+    for (int i = 0; i < count; ++i) {
+        conf = 1;
+        c = i;
+        for (int j = 0; j < occs.size(); ++j) {
+            conf *= pow(nums[j], c % occs[j]);
+            c = floor(c / occs[j]);
+        }
+        dividers.push_back(conf);
+    }
+    sort(dividers.begin(), dividers.end());
 }
 
 
@@ -29,7 +79,6 @@ int mu(int n) {
 void calc(int b, int p) {
     sum = 0;
     sums.clear();
-    factors.clear();
 
     if (p == 1) {
         sum = b;
@@ -40,7 +89,7 @@ void calc(int b, int p) {
     // \frac{1}{p}\sum_{d|p}{\mu(\frac{p}{d})(b^d-(b-1)^d)} for exact ball
     // \frac{b^d}{p}\sum_{d|p}{\mu(\frac{p}{d})} for max ball
     vector<int> sums (b, 0);
-    vector<int> dividers = divider(p);  // TODO: divider
+    divider(p);
     for (const int &x : dividers) {
         int m = mu(p / x);              // TODO: mu
         if (m) {
