@@ -1,4 +1,3 @@
-var worker;
 var ball, period;
 var bs;
 
@@ -61,10 +60,10 @@ function mainCalc(no_jugg) {
     // Worker
     else if (w) wk(factor + divider + mu + calc + `postMessage(calc(${ball},${period}))`, start, "calc", no_jugg);
     // Loop
-    else showCalc(...calc(ball, period), start, no_jugg);
+    else showCalc(...calc(ball, period), start, no_jugg, false);
 }
 
-function showCalc(sum, sums, start, no_jugg) {
+function showCalc(sum, sums, start, no_jugg, worker) {
     let end = Date.now();
     dgebi("calctime").innerHTML = `Calculation took ${end - start} milliseconds`;
     dgebi("predict").innerHTML = `There should be \\(\\frac{1}{${period}}\\sum_{d|${period}}{\\mu(\\frac{${period}}{d})(${ball}^d)}\\)=${sum} different tosses with a max of ${ball} ball`;
@@ -89,11 +88,13 @@ function mainToss() {
     // Worker
     else if (w) wk(Toss + sameNumberArray + juggle + filterByPeriod + filterRotationaryDuplicates + sortBySiteswap + groupByBall + toss + `postMessage(toss(${ball},${period}))`, start, "toss", false);
     // Loop
-    else showToss(...toss(ball, period), start);
+    else showToss(...toss(ball, period), start, false, false);
 }
 
-function showToss(p_arr, total, no_error, error, start) {
+function showToss(p_arr, total, no_error, error, start, no_jugg, worker) {
     let end = Date.now();
+    for (let b of dgebtn("button")) b.disabled = false;
+    for (let i of dgebtn("input")) i.disabled = false;
     if (no_error) {
         dgebi("tosstime").innerHTML = `Tossing took ${end - start} milliseconds`;
         dgebi("total").innerHTML = `Actual: ${total} answers total`;
@@ -109,14 +110,10 @@ function showToss(p_arr, total, no_error, error, start) {
         }
         else dgebi("download").innerHTML = "<button id=\"dn\">No Blob, No File</button>";
         dgebi("quest").innerHTML = "Tossing finished!";
-        for (let b of dgebtn("button")) b.disabled = false;
-        for (let i of dgebtn("input")) i.disabled = false;
         if (!b) dgebi("dn").disabled = true;
     } else {
         dgebi("tosserror").innerHTML = "Calculation error!";
         dgebi("quest").innerHTML = "Tossing error!";
-        for (let b of dgebtn("button")) b.disabled = false;
-        for (let i of dgebtn("input")) i.disabled = false;
         throw new Error(error)
     }
 }
@@ -124,10 +121,11 @@ function showToss(p_arr, total, no_error, error, start) {
 // Worker
 function wk(code, start, func, no_jugg) {
     let blob = new Blob([code], {type: "application/javascript"});;
-    worker = new Worker(URL.createObjectURL(blob));
+    var worker = new Worker(URL.createObjectURL(blob));
     worker.onmessage = message => {
-        if (func === "toss") showToss(...message.data, start);
-        else if (func === "calc") showCalc(...message.data, start, no_jugg);
+        worker.terminate();
+        if (func === "toss") showToss(...message.data, start, no_jugg, worker);
+        else if (func === "calc") showCalc(...message.data, start, no_jugg, worker);
         else throw new RangeError("Invalid Worker function!");
     }
 }
