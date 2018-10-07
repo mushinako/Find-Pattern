@@ -29,7 +29,8 @@ window.addEventListener("load", () => {
     resizer();
 
     // All the Clicks!
-    dgebi("calc").addEventListener("click", prep);
+    dgebi("jugg").addEventListener("click", () => prep(true));
+    dgebi("calc").addEventListener("click", () => prep(false));
     dgebi("heat").addEventListener("click", () => alert("Yes the number is accurate."));
     dgebi("exp").addEventListener("click", () => alert("Not exactly true but, ¯\\_(ツ)_/¯"));
     dgebi("meh").addEventListener("click", () => alert("Maybe I can optimize it but, ¯\\_(ツ)_/¯"));

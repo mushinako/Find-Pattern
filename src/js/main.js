@@ -7,7 +7,7 @@ var bs;
 var plrl = n => n === 1 ? "" : "s";
 
 // Preparations for Calculations
-function prep() {
+function prep(jugg) {
     // Sanitize Inputs
     let san_ball = sanitize(dgebi("ball").value);
     let san_period = sanitize(dgebi("period").value);
@@ -27,9 +27,9 @@ function prep() {
             bs = plrl(ball);
             dgebi("quest").innerHTML = `Tossing with a maximum of ${ball} ball${bs} with a period of ${period}...`;
             // Calculation
-            mainCalc();
+            mainCalc(!jugg);
             // Simulation
-            mainToss();
+            if (jugg) mainToss();
         } else {
             let errornum = "";
             if (ball <= 0) errornum += "At least 1 ball is needed! ";
@@ -53,22 +53,26 @@ function sanitize(input) {
 }
 
 // Calculations
-function mainCalc() {
+function mainCalc(no_jugg) {
     let start = Date.now();
     // WASM, Unimplemented
     if (m) dgebi("calcerror").innerHTML = "You hack :/";
     // Worker
-    else if (w) wk(factor + divider + mu + calc + `var b=${ball},p=${period};postMessage(calc(b,p))`, start, "calc");
+    else if (w) wk(factor + divider + mu + calc + `postMessage(calc(${ball},${period}))`, start, "calc", no_jugg);
     // Loop
-    else showCalc(...calc(ball, period), start);
+    else showCalc(...calc(ball, period), start, no_jugg);
 }
 
-function showCalc(sum, sums, start) {
+function showCalc(sum, sums, start, no_jugg) {
     let end = Date.now();
     dgebi("calctime").innerHTML = `Calculation took ${end - start} milliseconds`;
     dgebi("predict").innerHTML = `There should be \\(\\frac{1}{${period}}\\sum_{d|${period}}{\\mu(\\frac{${period}}{d})(${ball}^d)}\\)=${sum} different tosses with a max of ${ball} ball`;
     for (let i = 0; i < sums.length; i++) if (sums[i]) dgebi("predict").innerHTML += `<br>&emsp;${i+1} ball${plrl(i+1)}: ${sums[i]} result${plrl(sums[i])}`;
     MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    if (no_jugg) {
+        for (let b of dgebtn("button")) b.disabled = false;
+        for (let i of dgebtn("input")) i.disabled = false;
+    }
 }
 
 // Simulations
@@ -82,7 +86,7 @@ function mainToss() {
         for (let i of dgebtn("input")) i.disabled = false;
     }
     // Worker
-    else if (w) wk(Toss + sameNumberArray + juggle + filterByPeriod + filterRotationaryDuplicates + sortBySiteswap + groupByBall + toss + `var b=${ball},p=${period};postMessage(toss(b,p))`, start, "toss");
+    else if (w) wk(Toss + sameNumberArray + juggle + filterByPeriod + filterRotationaryDuplicates + sortBySiteswap + groupByBall + toss + `postMessage(toss(${ball},${period}))`, start, "toss", false);
     // Loop
     else showToss(...toss(ball, period), start);
 }
@@ -117,12 +121,12 @@ function showToss(p_arr, total, no_error, error, start) {
 }
 
 // Worker
-function wk(code, start, func) {
+function wk(code, start, func, no_jugg) {
     let blob = new Blob([code], {type: "application/javascript"});;
     worker = new Worker(URL.createObjectURL(blob));
     worker.onmessage = message => {
         if (func === "toss") showToss(...message.data, start);
-        else if (func === "calc") showCalc(...message.data, start);
+        else if (func === "calc") showCalc(...message.data, start, no_jugg);
         else throw new RangeError("Invalid Worker function!");
     }
 }

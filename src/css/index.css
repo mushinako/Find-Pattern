@@ -52,6 +52,14 @@ details[open] summary ~ * {
     100% {margin-top: 0;}
 } */
 
+.names {
+    text-align: right;
+}
+
+.actions {
+    text-align: center;
+}
+
 #content {
     width: 600px;
     position: absolute;

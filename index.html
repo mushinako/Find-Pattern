@@ -49,11 +49,14 @@
         <div>
             <table>
                 <tr>
-                    <td width="80px"><p>Max balls:</p></td>
-                    <td><input id="ball" type="number" placeholder="Integer/E-Notation" autocomplete="false" value="4"></td>
-                    <td width="80px"><p>Periods:</p></td>
-                    <td><input id="period" type="number" placeholder="Integer/E-Notation" autocomplete="false" value="6"></td>
-                    <td><button id="calc">Juggle!</button></td>
+                    <td class="names" width="80px" rowspan="2"><p>Max balls:&nbsp;</p></td>
+                    <td rowspan="2"><input id="ball" type="number" placeholder="Integer/E-Notation" autocomplete="false" value="4"></td>
+                    <td class="names" width="80px" rowspan="2"><p>Periods:&nbsp;</p></td>
+                    <td rowspan="2"><input id="period" type="number" placeholder="Integer/E-Notation" autocomplete="false" value="6"></td>
+                    <td class="actions"><button id="jugg">Juggle!</button></td>
+                </tr>
+                <tr>
+                    <td class="actions"><button id="calc">Just Calculate!</button></td>
                 </tr>
             </table>
         </div>
