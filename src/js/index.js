@@ -30,7 +30,8 @@ window.addEventListener("load", () => {
 
     // All the Clicks!
     dgebi("calc").addEventListener("click", prep);
-    dgebi("exp").addEventListener("click", () => alert("Not exactly true but, ¯\\_(ツ)_/¯"))
+    dgebi("heat").addEventListener("click", () => alert("Yes the number is accurate."));
+    dgebi("exp").addEventListener("click", () => alert("Not exactly true but, ¯\\_(ツ)_/¯"));
     dgebi("meh").addEventListener("click", () => alert("Maybe I can optimize it but, ¯\\_(ツ)_/¯"));
     dgebi("nah").addEventListener("click", () => alert("Obviously it's not supported (」ﾟヘﾟ)」\nI could've made it compatible but, (´π`)"));
 });
