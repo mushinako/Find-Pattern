@@ -28,13 +28,13 @@ class Toss {
                     found = true;
                     break;
                 }
-            if (!found)
-                ss.unshift(l - i + hand.indexOf(hand[i]));
+            !found && ss.unshift(l - i + hand.indexOf(hand[i]));
         }
         let ml = ss.length;
         for (let i = 1; i <= Math.floor(ml / 2); i++)
-            if (!(ml % i) && ss.every((cur, j, arr) => j < arr.length - i ? cur === arr[j + i] : true))
-                ss = ss.slice(0, i);
+            (!(ml % i)
+                && ss.every((cur, j, arr) => j < arr.length - i ? cur === arr[j + i] : true)
+                && (ss = ss.slice(0, i)));
         return ss;
     }
 }

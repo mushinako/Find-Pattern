@@ -15,35 +15,44 @@ class Toss {
     }
     private stack2Siteswap(): number[] {
         let tbs: number[] = [];
-        for (let i: number = 0; i < this.maxball; i++) tbs.push(i);
+        for (let i: number = 0; i < this.maxball; i++)
+            tbs.push(i);
         let tbso: number[] = tbs.slice(0);
         let hand: number[] = [];
-        do for (let x of this.stack) {
-                let in_hand: number = tbs.shift();
-                hand.push(in_hand);
-                tbs.splice(x - 1, 0, in_hand);
-        }
+        do
+            for (let x of this.stack) {
+                    let in_hand: number = tbs.shift();
+                    hand.push(in_hand);
+                    tbs.splice(x - 1, 0, in_hand);
+            }
         while (!sameNumberArray(tbs, tbso));
         let ss: number[] = [];
         let l: number = hand.length;
         for (let i: number = l - 1; i >= 0; i--) {
             let found: boolean = false;
-            for (let j: number = i + 1; j < l; j++) if (hand[i] === hand[j]) {
-                ss.unshift(j - i);
-                found = true;
-                break;
-            }
-            if (!found) ss.unshift(l - i + hand.indexOf(hand[i]));
+            for (let j: number = i + 1; j < l; j++)
+                if (hand[i] === hand[j]) {
+                    ss.unshift(j - i);
+                    found = true;
+                    break;
+                }
+            !found && ss.unshift(l - i + hand.indexOf(hand[i]));
         }
         let ml: number = ss.length;
-        for (let i: number = 1; i <= Math.floor(ml / 2); i++) if (!(ml % i) && ss.every((cur: number, j: number, arr: number[]): boolean => j < arr.length - i ? cur === arr[j + i] : true)) ss = ss.slice(0, i);
+        for (let i: number = 1; i <= Math.floor(ml / 2); i++)
+            (!(ml % i)
+            && ss.every((cur: number, j: number, arr: number[]): boolean => j < arr.length - i ? cur === arr[j + i] : true)
+            && (ss = ss.slice(0, i)));
         return ss;
     }
 }
 
 function sameNumberArray(arr1: number[], arr2: number[]): boolean {
-    if (arr1.length !== arr2.length) return false;
-    for (let i: number = 0; i < arr1.length; i++) if (arr1[i] !== arr2[i]) return false;
+    if (arr1.length !== arr2.length)
+        return false;
+    for (let i: number = 0; i < arr1.length; i++)
+        if (arr1[i] !== arr2[i])
+            return false;
     return true;
 }
 
@@ -63,7 +72,9 @@ function juggle(b: number, p: number): Toss[] {
 
 function filterByPeriod(psbl: Toss[], target: number): Toss[] {
     let res: Toss[] = [];
-    for (let x of psbl) if (x.ss_length === target) res.push(x);
+    for (let x of psbl)
+        if (x.ss_length === target)
+            res.push(x);
     return res;
 }
 
@@ -89,8 +100,11 @@ function sortBySiteswap(c: Toss[]): Toss[] {
     c.sort((a: Toss, b: Toss): number => {
         let ass: number[] = a.siteswap;
         let bss: number[] = b.siteswap;
-        if (ass.length !== bss.length) return ass.length - bss.length;
-        for (let i: number = 0; i < ass.length; i++) if (ass[i] !== bss[i]) return ass[i] - bss[i];
+        if (ass.length !== bss.length)
+            return ass.length - bss.length;
+        for (let i: number = 0; i < ass.length; i++)
+            if (ass[i] !== bss[i])
+                return ass[i] - bss[i];
         throw new RangeError("There should not be a match!");
     });
     return c;
@@ -101,7 +115,8 @@ function groupByBall(c: Toss[]): BallGroup {
     let len_arr: number[] = [];
     for (let x of c) {
         let mb: number = x.maxball;
-        if (len_arr.includes(mb)) res[mb].push(x);
+        if (len_arr.includes(mb))
+            res[mb].push(x);
         else {
             len_arr.push(mb);
             res[mb] = [x];
