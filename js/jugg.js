@@ -153,7 +153,7 @@ function progress(val) {
     // byId('perc').innerText = per;
 }
 function save() {
-    let data = byId('jugg-res').innerText;
+    let data = byId('jugg-res').value;
     if (['Win32', 'Win64', 'Windows', 'WinCE'].indexOf(window.navigator.platform) !== -1)
         data = data.replace(/\n/g, '\r\n');
     let blob = new Blob([data], { type: 'text/plain;charset=utf-8' });

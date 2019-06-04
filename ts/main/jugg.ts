@@ -171,7 +171,7 @@ function progress(val: number) {
 }
 
 function save(): void {
-  let data: string = byId('jugg-res').innerText;
+  let data: string = (<HTMLTextAreaElement> byId('jugg-res')).value;
   if (['Win32', 'Win64', 'Windows', 'WinCE'].indexOf(window.navigator.platform) !== -1)
     data = data.replace(/\n/g, '\r\n');
   let blob: Blob = new Blob([data], {type: 'text/plain;charset=utf-8'});
