@@ -50,6 +50,10 @@ document.addEventListener('DOMContentLoaded', (): void => {
   }];
 
   byId('noscript').style.display = 'none';
+
+  if (!w)
+    byId('noworker').style.display = 'inherit';
+
   for (let x of buttons)
     x.disabled = false;
 

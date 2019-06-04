@@ -48,6 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
             worker: w
         }];
     byId('noscript').style.display = 'none';
+    if (!w)
+        byId('noworker').style.display = 'inherit';
     for (let x of buttons)
         x.disabled = false;
     byId('calc').addEventListener('click', () => main(false));

@@ -50,7 +50,8 @@ textarea.materialize-textarea:disabled {
   to   { opacity: 1; }
 }
 
-#noscript {
+#noscript,
+#noworker {
   color: #ff5252;
 }
 
@@ -60,7 +61,8 @@ textarea.materialize-textarea:disabled {
 
 #calc-card,
 #jugg-card,
-#jugg-err {
+#jugg-err,
+#noworker {
   display: none;
 }
 
