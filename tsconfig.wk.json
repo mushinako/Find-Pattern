@@ -3,12 +3,11 @@
   "compilerOptions": {
     "lib": [
       "es2016",
-      "dom",
-      "dom.iterable",
+      "WebWorker",
     ],
     "target": "es6"
   },
   "include": [
-    "./ts/main/**/*"
+    "./ts/wk/**/*"
   ]
 }

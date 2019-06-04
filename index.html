@@ -1,106 +1,85 @@
 <!DOCTYPE html>
-
-<head>
+<html lang="en" dir="ltr">
+  <head>
     <!-- MAIN STUFFS -->
+    <meta charset="utf-8">
     <title>Juggle Juggle!</title>
-    <meta name="description" content="Find the juggling patterns, given # of balls and periods">
+    <meta name="description" content="Find the juggling patterns, given numbers of balls and periods">
     <meta name="author" content="mushinako">
     <link rel="shortcut icon" type="image/png" href="./asset/favicon.png">
-    <meta charset="utf-8">
-
-    <!-- TRYING TO BE RESPONSIVE -->
+    <!-- RESPONSIVENESS -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-
-    <!-- STYLESHEET -->
-    <link rel="stylesheet" href="./src/css/common.css">
-    <link rel="stylesheet" href="./src/css/index.css">
-
-    <!-- LIBRARY -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=TeX-MML-AM_CHTML" async></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="./lib/FileSaver.js" type="application/javascript"></script>
-
-    <!-- FUNCTIONS -->
-    <script src="./src/js/common.js"></script>
-    <script src="./src/js/index.js"></script>
-    <script src="./src/js/main.js"></script>
-    <script src="./src/js/error.js"></script>
-    <script src="./src/js/Calc_Pattern.js"></script>
-    <script src="./src/js/Find_Pattern.js"></script>
-
-    <!-- NOSCRIPT -->
-    <noscript>
-        Your browser does not support JavaScript or JavaScript is disabled!<br>Unfortunately the calculations need JavaScript to run.
-    </noscript>
-</head>
-
-<body>
-    <div class="header">
-        <p><strong><a href="#">Toss!</a><a href="https://github.com/Mushinako/Find-Pattern" rel="noopener noreferrer" target="_blank">Source</a><a href="https://github.com/Mushinako/Find-Pattern/blob/gh-pages/LICENSE" rel="noopener noreferrer" target="_blank">License</a></strong></p>
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./css/index.min.css">
+  </head>
+  <body class="grey darken-4">
+    <nav class="grey darken-3" role="navigation">
+      <div class="nav-wrapper container center-align">
+        <ul class="center-align">
+          <li><a href="#">Juggle!</a></li>
+          <li><a href="https://github.com/Mushinako/Find-Pattern">Source</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="container">
+        <h1 class="header center">Juggle Juggle!</h1>
+        <h4 class="center" id="noscript">Javascript is not enabled!</h4>
+      </div>
+      <div class="card purple darken-4">
+        <div class="card-content">
+          <form class="row short" id="input">
+            <div class="input-field short col s12 m6">
+              <input type="number" id="ball" value="4" class="validate" placeholder="Integer/E-Notation" min="1" autocomplete="off" required>
+              <label for="ball">Max Balls</label>
+              <span class="helper-text" data-error="The input is not a positive integer!"></span>
+            </div>
+            <div class="input-field short col s12 m6">
+              <input type="number" id="peri" value="6" class="validate" placeholder="Integer/E-Notation" min="1" autocomplete="off" required>
+              <label for="ball">Period</label>
+              <span class="helper-text" data-error="The input is not a positive integer!"></span>
+            </div>
+          </form>
+          <div class="div-center pad-child">
+            <button class="btn waves-effect waves-light pink darken-2" id="calc" disabled>Calculate!</button>
+            <button class="btn waves-effect waves-light pink darken-2" id="jugg" disabled>Calc & Jugg!</button>
+          </div>
+        </div>
+      </div>
+      <div class="progress" id="prog">
+        <div class="determinate"></div>
+      </div>
+      <div class="row">
+        <div class="card-panel brown darken-4 col s12" id="calc-card">
+          <div class="container">
+            <p>Calculation took <span id="calc-time"></span>.</p>
+            <p>There should be <span id="calc-math"></span>=<span id="calc-tot"></span> different tosses with a max of <strong><span id="calc-ball"></span></strong> balls and an exact period of <strong><span id="calc-peri"></span></strong>.</p>
+            <textarea id="calc-res" class="materialize-textarea" disabled></textarea>
+          </div>
+        </div>
+        <div class="card-panel brown darken-4 col s12" id="jugg-card">
+          <div class="container">
+            <h3 id="jugg-err">An error has occurred!</h3>
+            <span id="jugg-cont">
+              <p>Juggling took <span id="jugg-time"></span>.</p>
+              <p>There actually are <span id="jugg-tot"></span> different tosses with a max of <strong><span id="jugg-ball"></span></strong> balls and an exact period of <strong><span id="jugg-peri"></span></strong>.</p>
+              <div class="row">
+                <textarea id="jugg-res" class="materialize-textarea col s9" disabled></textarea>
+                <button class="btn waves-effect waves-light pink darken-2 col s3" id="down" disabled>Save Patterns</button>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="content">
-        <div id="title">
-            <p><strong>Juggle!</strong></p>
-        </div>
-        <!-- <inputdiv> -->
-        <div>
-            <table>
-                <tr>
-                    <td class="names" width="80px" rowspan="2"><p>Max balls:&nbsp;</p></td>
-                    <td rowspan="2"><input id="ball" type="number" placeholder="Integer/E-Notation" autocomplete="false" value="4"></td>
-                    <td class="names" width="80px" rowspan="2"><p>Periods:&nbsp;</p></td>
-                    <td rowspan="2"><input id="period" type="number" placeholder="Integer/E-Notation" autocomplete="false" value="6"></td>
-                    <td class="actions"><button id="jugg">Juggle!</button></td>
-                </tr>
-                <tr>
-                    <td class="actions"><button id="calc">Just Calculate!</button></td>
-                </tr>
-            </table>
-        </div>
-        <!-- </inputdiv> -->
-        <!-- <help> -->
-        <div>
-            <details>
-                <summary>
-                    <b>How to use this?</b>
-                </summary>
-                <p>Input the number of test cases as an integer, optionally in <a href="https://en.wikipedia.org/wiki/Scientific_notation#E-notation" rel="noopener noreferrer" target="_blank"><abbr title="Exponential notation using 'e' in place of '10^'">"E-notation"</abbr></a>. E.g., a million can be represented as "<strong>1000000</strong>" or "<strong>1e6</strong>".</p>
-                <p>Please add <strong>0</strong>'s before decimal points when necessary, i.e., "<strong>.13e6</strong>" is <strong>not</strong> valid, but "<strong>0.13e6</strong>" is.</p>
-                <p>Non-integers will be rounded up.</p>
-                <p>Be aware that this algorithm is <a id="meh" href="#">\(O(b^p)\)</a>, thusly the amount of time required <a id="exp" href="#">expoentially</a> when ball/period increases.</p>
-                <p>To avoid integer overflow, it is recommeded that the parameters do not exceed <strong>100</strong><sup><em>[Citation Needed]</em></sup>. To finish the calculations before the <a href="https://en.wikipedia.org/wiki/Heat_death_of_the_universe" rel="noopener noreferrer" target="_blank">heat death of the universe</a>, limit the parameters to below <strong><a id="heat" href="#">10</a></strong>.</p>
-                <p>This script works on <a href="https://www.google.com/chrome/" rel="noopener noreferrer" target="_blank">Chrome v67+</a>, <a href="https://www.mozilla.org/en-US/firefox/" rel="noopener noreferrer" target="_blank">Firefox v60+</a>, and the beloved <a id="nah" href="#">Internet Explorer 1+</a>. Testing on <a href="https://www.apple.com/safari/" rel="noopener noreferrer" target="_blank">Safari 11+</a> is incomplete.</p>
-                <div id="check">
-                    <!-- <p id="wasm"></p> -->
-                    <p id="worker"></p>
-                </div>
-                <p id="method"></p>
-                <div id="methods"></div>
-            </details>
-        </div>
-        <!-- </help> -->
-        <!-- <results> -->
-        <div id="mx">
-            <p id="quest"></p>
-            <p id="calcerror"></p>
-            <p id="calctime"></p>
-            <p id="predict"></p>
-            <p id="tosserror"></p>
-            <p id="tosstime"></p>
-            <p id="total"></p>
-            <table style="border-spacing: 10px 0">
-                <tr>
-                    <td><textarea id="results" readonly></textarea></td>
-                    <td width="80px" style="text-align: center"><div id="download"></div></td>
-                </tr>
-            </table>
-            <p id="error"></p>
-            <textarea id="errors" readonly></textarea>
-            <br>
-        </div>
-        <!-- </results> -->
-    </div>
-</body>
+    <!-- LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+    <!-- SCRIPTS -->
+    <script src="./js/common.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="./js/calc.js"></script>
+    <script src="./js/jugg.js"></script>
+  </body>
+</html>
