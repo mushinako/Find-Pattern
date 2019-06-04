@@ -1,3 +1,10 @@
+function cleanUp() {
+    byId('prog').style.visibility = 'hidden';
+    for (let e of buttons)
+        e.disabled = false;
+    for (let e of inputs)
+        e.disabled = false;
+}
 function main(j) {
     // Check input
     let ballE = byId('ball');
@@ -20,12 +27,9 @@ function main(j) {
             if (j) {
                 byId('prog').style.visibility = 'inherit';
                 juggMain(b, p);
-                byId('prog').style.visibility = 'hidden';
             }
-            for (let e of buttons)
-                e.disabled = false;
-            for (let e of inputs)
-                e.disabled = false;
+            else
+                cleanUp();
         }
         else {
             alert('This shouldn\'t happen...');

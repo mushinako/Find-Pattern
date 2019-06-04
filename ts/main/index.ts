@@ -1,3 +1,11 @@
+function cleanUp() {
+  byId('prog').style.visibility = 'hidden';
+  for (let e of buttons)
+    e.disabled = false;
+  for (let e of inputs)
+    e.disabled = false;
+}
+
 function main(j: boolean): void {
   // Check input
   let ballE = <HTMLInputElement> byId('ball');
@@ -20,12 +28,8 @@ function main(j: boolean): void {
       if (j) {
         byId('prog').style.visibility = 'inherit';
         juggMain(b, p);
-        byId('prog').style.visibility = 'hidden';
-      }
-      for (let e of buttons)
-        e.disabled = false;
-      for (let e of inputs)
-        e.disabled = false;
+      } else
+        cleanUp();
     } else {
       alert('This shouldn\'t happen...');
       console.log(errors);

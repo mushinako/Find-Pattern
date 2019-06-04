@@ -145,9 +145,10 @@ function juggMain(b: number, p: number): void {
     worker = new Worker('./js/jugg-wk.js');
     worker.postMessage([b, p]);
     worker.onmessage = (e: MessageEvent): void => {
-      if (e.data[0])
+      if (e.data[0]) {
         juggShow(b, p, e.data[1], start);
-      else
+        cleanUp();
+      } else
         byId('prog').style.width = e.data[1];
     }
     worker.onerror = (e: ErrorEvent): void => {
@@ -155,8 +156,10 @@ function juggMain(b: number, p: number): void {
       byId('jugg-err').style.display = 'block';
       byId('jugg-cont').style.display = 'none';
       byId('jugg-card').style.display = 'block';
+      cleanUp();
     };
   } else {
     juggShow(b, p, jugg(b, p), start);
+    cleanUp();
   }
 }
