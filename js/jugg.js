@@ -127,7 +127,6 @@ function juggMain(b, p) {
     }
     else if (w) {
         // Worker
-        worker = new Worker('./js/jugg-wk.js');
         worker.postMessage([b, p]);
         worker.onmessage = (e) => {
             if (e.data[0]) {

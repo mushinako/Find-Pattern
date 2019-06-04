@@ -9,7 +9,7 @@ let inputs: HTMLCollectionOf<HTMLInputElement> = document.getElementsByTagName('
 let m: boolean, w: boolean, b: boolean;   // WASM, WebWorkers, Blob
 
 let errors: object[];
-let worker: Worker;
+let worker: Worker = new Worker('./js/jugg-wk.js');
 
 function dividers(n: number): number[] {
   // The limiting factor is not this function, and thus I can get away with it

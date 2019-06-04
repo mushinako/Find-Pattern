@@ -4,7 +4,7 @@ let inputs = document.getElementsByTagName('input');
 // Feature compatibilities
 let m, w, b; // WASM, WebWorkers, Blob
 let errors;
-let worker;
+let worker = new Worker('./js/jugg-wk.js');
 function dividers(n) {
     // The limiting factor is not this function, and thus I can get away with it
     //   like this, as there will never be large numbers

@@ -145,7 +145,6 @@ function juggMain(b: number, p: number): void {
     // Not implemented
   } else if (w) {
     // Worker
-    worker = new Worker('./js/jugg-wk.js');
     worker.postMessage([b, p]);
     worker.onmessage = (e: MessageEvent): void => {
       if (e.data[0]) {
