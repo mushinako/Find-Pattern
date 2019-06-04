@@ -55,7 +55,11 @@ textarea.materialize-textarea:disabled {
   color: #ff5252;
 }
 
-#prog {
+#perc {
+  font-size: 14px;
+}
+
+#prog-div {
   visibility: hidden;
 }
 

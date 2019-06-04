@@ -1,5 +1,5 @@
 function cleanUp() {
-  byId('prog').style.visibility = 'hidden';
+  byId('prog-div').style.visibility = 'hidden';
   for (let e of buttons)
     e.disabled = false;
   for (let e of inputs)
@@ -26,7 +26,7 @@ function main(j: boolean): void {
       byId('jugg-card').style.display = 'none';
       calcMain(b, p);
       if (j) {
-        byId('prog').style.visibility = 'inherit';
+        byId('prog-div').style.visibility = 'inherit';
         juggMain(b, p);
       } else
         cleanUp();
