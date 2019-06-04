@@ -101,26 +101,26 @@ function filtW(b: number, p: number, pre: string[][]): string[][] {
       if (correctPerW(p, divs, curNum))
         tmpArr.push(curNum);
       j = ballGroup.lastIndexOf(curStr);
-      postMessage([false, `${65+35*(prog+j)/(b**p+b*b+1)}%`]);
+      postMessage([false, 35+65*(prog+j)/(b**p+b*b+1)]);
     }
     res[i] = tmpArr.sort(smolArrSortW).map(val => val.join(' '));
     prog += ballGroup.length + 1;
-    postMessage([false, `${65+35*prog/(b**p+b*b+1)}%`]);
+    postMessage([false, 35+65*prog/(b**p+b*b+1)]);
   }
   return res;
 }
 
 function juggW(b: number, p:number): string[][] {
   let sg: IterableIterator<number[]> = stackGenW(b, p);
-  postMessage([false, '5%']);
+  postMessage([false, 2]);
   let res: string[][] = Array(b+1).fill(undefined).map(() => []);
   for (let i: number = 0; i < b ** p; i++) {
-    postMessage([false, `${5+60*i/b**p}%`]);
+    postMessage([false, 2+33*i/b**p]);
     let stack: number[] = sg.next().value;
     let toss: TossW = stack2SiteswapW(stack);
     res[toss.maxBall].push(toss.siteswap);
   }
-  postMessage([false, '65%']);
+  postMessage([false, 35]);
   // Filter rotationary duplicates and incorrect periods
   return filtW(b, p, res);
 }

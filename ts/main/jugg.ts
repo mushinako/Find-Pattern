@@ -89,26 +89,26 @@ function filt(b: number, p: number, pre: string[][]): string[][] {
       if (correctPer(p, divs, curNum))
         tmpArr.push(curNum);
       j = ballGroup.lastIndexOf(curStr);
-      byId('prog').style.width = `${65+35*(prog+j)/(b**p+b*b+1)}%`;
+      progress(35+65*(prog+j)/(b**p+b*b+1));
     }
     res[i] = tmpArr.sort(smolArrSort).map((val: number[]): string => val.join(' '));
     prog += ballGroup.length + 1;
-    byId('prog').style.width = `${65+35*prog/(b**p+b*b+1)}%`;
+    progress(35+65*prog/(b**p+b*b+1));
   }
   return res;
 }
 
 function jugg(b: number, p:number): string[][] {
   let sg: IterableIterator<number[]> = stackGen(b, p);
-  byId('prog').style.width = '5%';
+  progress(2);
   let res: string[][] = Array(b+1).fill(undefined).map((): string[] => []);
   for (let i: number = 0; i < b ** p; i++) {
-    byId('prog').style.width = `${5+60*i/b**p}%`;
+    progress(2+33*i/b**p);
     let stack: number[] = sg.next().value;
     let toss: Toss = stack2Siteswap(stack);
     res[toss.maxBall].push(toss.siteswap);
   }
-  byId('prog').style.width = '65%';
+  progress(35);
   // Filter rotationary duplicates and incorrect periods
   return filt(b, p, res);
 }
@@ -149,7 +149,7 @@ function juggMain(b: number, p: number): void {
         juggShow(b, p, e.data[1], start);
         cleanUp();
       } else
-        byId('prog').style.width = e.data[1];
+        progress(e.data[1]);
     }
     worker.onerror = (e: ErrorEvent): void => {
       console.log(e);
@@ -162,4 +162,10 @@ function juggMain(b: number, p: number): void {
     juggShow(b, p, jugg(b, p), start);
     cleanUp();
   }
+}
+
+function progress(val: number) {
+  let per: string = `${Math.round(val * 10000) / 10000}%`;
+  byId('prog').style.width = per;
+  byId('perc').innerText = per;
 }

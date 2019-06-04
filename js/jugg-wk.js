@@ -90,25 +90,25 @@ function filtW(b, p, pre) {
             if (correctPerW(p, divs, curNum))
                 tmpArr.push(curNum);
             j = ballGroup.lastIndexOf(curStr);
-            postMessage([false, `${65 + 35 * (prog + j) / (Math.pow(b, p) + b * b + 1)}%`]);
+            postMessage([false, 35 + 65 * (prog + j) / (Math.pow(b, p) + b * b + 1)]);
         }
         res[i] = tmpArr.sort(smolArrSortW).map(val => val.join(' '));
         prog += ballGroup.length + 1;
-        postMessage([false, `${65 + 35 * prog / (Math.pow(b, p) + b * b + 1)}%`]);
+        postMessage([false, 35 + 65 * prog / (Math.pow(b, p) + b * b + 1)]);
     }
     return res;
 }
 function juggW(b, p) {
     let sg = stackGenW(b, p);
-    postMessage([false, '5%']);
+    postMessage([false, 2]);
     let res = Array(b + 1).fill(undefined).map(() => []);
     for (let i = 0; i < Math.pow(b, p); i++) {
-        postMessage([false, `${5 + 60 * i / Math.pow(b, p)}%`]);
+        postMessage([false, 2 + 33 * i / Math.pow(b, p)]);
         let stack = sg.next().value;
         let toss = stack2SiteswapW(stack);
         res[toss.maxBall].push(toss.siteswap);
     }
-    postMessage([false, '65%']);
+    postMessage([false, 35]);
     // Filter rotationary duplicates and incorrect periods
     return filtW(b, p, res);
 }

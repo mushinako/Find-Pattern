@@ -75,25 +75,25 @@ function filt(b, p, pre) {
             if (correctPer(p, divs, curNum))
                 tmpArr.push(curNum);
             j = ballGroup.lastIndexOf(curStr);
-            byId('prog').style.width = `${65 + 35 * (prog + j) / (Math.pow(b, p) + b * b + 1)}%`;
+            progress(35 + 65 * (prog + j) / (Math.pow(b, p) + b * b + 1));
         }
         res[i] = tmpArr.sort(smolArrSort).map((val) => val.join(' '));
         prog += ballGroup.length + 1;
-        byId('prog').style.width = `${65 + 35 * prog / (Math.pow(b, p) + b * b + 1)}%`;
+        progress(35 + 65 * prog / (Math.pow(b, p) + b * b + 1));
     }
     return res;
 }
 function jugg(b, p) {
     let sg = stackGen(b, p);
-    byId('prog').style.width = '5%';
+    progress(2);
     let res = Array(b + 1).fill(undefined).map(() => []);
     for (let i = 0; i < Math.pow(b, p); i++) {
-        byId('prog').style.width = `${5 + 60 * i / Math.pow(b, p)}%`;
+        progress(2 + 33 * i / Math.pow(b, p));
         let stack = sg.next().value;
         let toss = stack2Siteswap(stack);
         res[toss.maxBall].push(toss.siteswap);
     }
-    byId('prog').style.width = '65%';
+    progress(35);
     // Filter rotationary duplicates and incorrect periods
     return filt(b, p, res);
 }
@@ -132,7 +132,7 @@ function juggMain(b, p) {
                 cleanUp();
             }
             else
-                byId('prog').style.width = e.data[1];
+                progress(e.data[1]);
         };
         worker.onerror = (e) => {
             console.log(e);
@@ -146,4 +146,9 @@ function juggMain(b, p) {
         juggShow(b, p, jugg(b, p), start);
         cleanUp();
     }
+}
+function progress(val) {
+    let per = `${Math.round(val * 10000) / 10000}%`;
+    byId('prog').style.width = per;
+    byId('perc').innerText = per;
 }
