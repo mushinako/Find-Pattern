@@ -55,9 +55,9 @@ textarea.materialize-textarea:disabled {
   color: #ff5252;
 }
 
-#perc {
+/* #perc {
   font-size: 14px;
-}
+} */
 
 #prog-div {
   visibility: hidden;

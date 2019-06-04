@@ -150,5 +150,5 @@ function juggMain(b, p) {
 function progress(val) {
     let per = `${Math.round(val * 10000) / 10000}%`;
     byId('prog').style.width = per;
-    byId('perc').innerText = per;
+    // byId('perc').innerText = per;
 }
