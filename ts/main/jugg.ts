@@ -83,16 +83,19 @@ function filt(b: number, p: number, pre: string[][]): string[][] {
     let ballGroup = pre[i];
     ballGroup.sort();
     let tmpArr: number[][] = [];
+    let tmpProg: number = 0;
     for (let j: number = 0; j < ballGroup.length; j++) {
       let curStr: string = ballGroup[j];
       let curNum: number[] = curStr.split(' ').map((v: string): number => parseInt(v));
       if (correctPer(p, divs, curNum))
         tmpArr.push(curNum);
       j = ballGroup.lastIndexOf(curStr);
+      tmpProg += 1;
+      byId('prog').style.width = `${65+35*(prog+tmpProg)/(b**p+b*b+1)}%`;
     }
     res[i] = tmpArr.sort(smolArrSort).map((val: number[]): string => val.join(' '));
     prog += ballGroup.length + 1;
-    byId('prog').style.width = `${65+35*prog/(b**p+b+1)}%`;
+    byId('prog').style.width = `${65+35*prog/(b**p+b*b+1)}%`;
   }
   return res;
 }

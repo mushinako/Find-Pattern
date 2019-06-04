@@ -95,16 +95,19 @@ function filtW(b: number, p: number, pre: string[][]): string[][] {
     let ballGroup = pre[i];
     ballGroup.sort();
     let tmpArr: number[][] = [];
+    let tmpProg: number = 0;
     for (let j: number = 0; j < ballGroup.length; j++) {
       let curStr: string = ballGroup[j];
       let curNum: number[] = curStr.split(' ').map(v => parseInt(v));
       if (correctPerW(p, divs, curNum))
         tmpArr.push(curNum);
       j = ballGroup.lastIndexOf(curStr);
+      tmpProg += 1;
+      postMessage([false, `${65+35*(prog+tmpProg)/(b**p+b*b+1)}%`]);
     }
     res[i] = tmpArr.sort(smolArrSortW).map(val => val.join(' '));
     prog += ballGroup.length + 1;
-    postMessage([false, `${65+35*prog/(b**p+b+1)}%`]);
+    postMessage([false, `${65+35*prog/(b**p+b*b+1)}%`]);
   }
   return res;
 }
