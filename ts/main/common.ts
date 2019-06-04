@@ -1,5 +1,6 @@
 declare var MathJax: any;
 declare var M: any;
+declare var saveAs: any;
 
 let byId = (s: string): HTMLElement => document.getElementById(s);
 let buttons: HTMLCollectionOf<HTMLButtonElement> = document.getElementsByTagName('button');

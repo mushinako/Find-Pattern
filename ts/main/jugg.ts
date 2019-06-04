@@ -169,3 +169,11 @@ function progress(val: number) {
   byId('prog').style.width = per;
   // byId('perc').innerText = per;
 }
+
+function save(): void {
+  let data: string = byId('jugg-res').innerText;
+  if (['Win32', 'Win64', 'Windows', 'WinCE'].indexOf(window.navigator.platform) !== -1)
+    data = data.replace(/\n/g, '\r\n');
+  let blob: Blob = new Blob([data], {type: 'text/plain;charset=utf-8'});
+  saveAs(blob, 'juggle.txt');
+}

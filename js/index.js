@@ -54,5 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         x.disabled = false;
     byId('calc').addEventListener('click', () => main(false));
     byId('jugg').addEventListener('click', () => main(true));
+    byId('down').addEventListener('click', () => save());
     document.addEventListener('keydown', (e) => e.key == 'Enter' ? e.ctrlKey ? main(true) : main(false) : undefined);
 });
