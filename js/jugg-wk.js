@@ -84,15 +84,13 @@ function filtW(b, p, pre) {
         let ballGroup = pre[i];
         ballGroup.sort();
         let tmpArr = [];
-        let tmpProg = 0;
         for (let j = 0; j < ballGroup.length; j++) {
             let curStr = ballGroup[j];
             let curNum = curStr.split(' ').map(v => parseInt(v));
             if (correctPerW(p, divs, curNum))
                 tmpArr.push(curNum);
             j = ballGroup.lastIndexOf(curStr);
-            tmpProg += 1;
-            postMessage([false, `${65 + 35 * (prog + tmpProg) / (Math.pow(b, p) + b * b + 1)}%`]);
+            postMessage([false, `${65 + 35 * (prog + j) / (Math.pow(b, p) + b * b + 1)}%`]);
         }
         res[i] = tmpArr.sort(smolArrSortW).map(val => val.join(' '));
         prog += ballGroup.length + 1;
