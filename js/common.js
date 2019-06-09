@@ -1,3 +1,4 @@
+"use strict";
 let byId = (s) => document.getElementById(s);
 let buttons = document.getElementsByTagName('button');
 let inputs = document.getElementsByTagName('input');

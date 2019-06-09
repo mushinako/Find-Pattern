@@ -1,3 +1,4 @@
+"use strict";
 function factors(n) {
     if (n === 1)
         return [];

@@ -1,3 +1,5 @@
+"use strict"
+
 function factors(n: number): number[] {
   if (n === 1)
     return [];

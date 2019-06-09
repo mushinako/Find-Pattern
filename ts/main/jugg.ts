@@ -1,3 +1,5 @@
+"use strict"
+
 interface Toss {
   maxBall: number;
   siteswap: string;

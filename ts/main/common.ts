@@ -1,3 +1,5 @@
+"use strict"
+
 declare var MathJax: any;
 declare var M: any;
 declare var saveAs: any;

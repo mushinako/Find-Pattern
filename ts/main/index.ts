@@ -1,3 +1,5 @@
+"use strict"
+
 function cleanUp() {
   byId('prog-div').style.visibility = 'hidden';
   for (let e of buttons)

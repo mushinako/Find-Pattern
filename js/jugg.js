@@ -1,3 +1,4 @@
+"use strict";
 function* stackGen(b, p) {
     for (let i = 0; i < Math.pow(b, p); i++) {
         let ret = Array(p);
